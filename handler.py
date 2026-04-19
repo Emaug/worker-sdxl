@@ -54,7 +54,7 @@ class ModelHandler:
         
         # Enable memory optimizations
         base_pipe.enable_xformers_memory_efficient_attention()
-        base_pipe.enable_model_cpu_offload()
+        #base_pipe.enable_model_cpu_offload()
 
         return base_pipe
 
@@ -78,7 +78,7 @@ class ModelHandler:
         
         # Enable memory optimizations
         refiner_pipe.enable_xformers_memory_efficient_attention()
-        refiner_pipe.enable_model_cpu_offload()
+        #refiner_pipe.enable_model_cpu_offload()
 
         return refiner_pipe
 
@@ -262,4 +262,7 @@ def generate_image(job):
     return results
 
 
-runpod.serverless.start({"handler": generate_image})
+runpod.serverless.start({
+    "handler": generate_image,
+    "return_aggregate_stream": False
+})
