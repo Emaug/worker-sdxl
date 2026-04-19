@@ -33,9 +33,11 @@ RUN uv pip install -r /requirements.txt
 
 # copy files
 COPY download_weights.py schemas.py handler.py test_input.json /
-
+ARG HF_TOKEN
+ENV HF_TOKEN=$HF_TOKEN
 # download the weights from hugging face
-RUN python /download_weights.py
+RUN --mount=type=secret,id=HF_TOKEN \
+    HF_TOKEN=$(cat /run/secrets/HF_TOKEN) python /download_weights.py
 
 # run the handler
 CMD python -u /handler.py
