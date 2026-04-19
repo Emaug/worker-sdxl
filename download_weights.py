@@ -1,10 +1,25 @@
+from huggingface_hub import login, whoami
+import os
+
+token = os.environ.get("HF_TOKEN")
+
+if token:
+    print("Logging into HuggingFace...")
+    login(token=token)
+    try:
+        print("HF user:", whoami())
+    except Exception as e:
+        print("HF auth failed:", e)
+else:
+    print("WARNING: No HF_TOKEN found!")
+
+
 import torch
 from diffusers import (
     StableDiffusionXLPipeline,
     StableDiffusionXLImg2ImgPipeline,
     AutoencoderKL,
 )
-
 
 def fetch_pretrained_model(model_class, model_name, **kwargs):
     """
